@@ -18,7 +18,6 @@ const ProductDetailPage = ({ programDetail }) => {
   const handleQuantityChange = (event) => {
     setQuantity(Number(event.target.value));
   };
-
   const addToCart = () => {
     const user = JSON.parse(localStorage.getItem('loggedInUser'));
 
@@ -42,7 +41,7 @@ const ProductDetailPage = ({ programDetail }) => {
       image: programDetail.image,
       price: programDetail.price,
       quantity: quantity,
-      userId: user.id // Store the user ID with the cart item
+      userId: user.id 
     };
 
     const existingCart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -59,8 +58,6 @@ const ProductDetailPage = ({ programDetail }) => {
 
     alert('Product added to cart');
   };
-
-
   return (
     <div className="container flex flex-col w-full py-10 mx-auto lg:flex-row">
       <div className="flex gap-5 lg:w-[50%] lg:flex-row flex-col">
