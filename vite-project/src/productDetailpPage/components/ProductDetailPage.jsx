@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 import img from "../../assets/product.png";
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 const ProductDetailPage = ({ programDetail }) => {
-  console.log(programDetail, "happy");
   const [selectedImage, setSelectedImage] = useState(img);
   const navigate = useNavigate();
   const images = [
@@ -18,7 +16,7 @@ const ProductDetailPage = ({ programDetail }) => {
   const [quantity, setQuantity] = useState(1);
 
   const handleQuantityChange = (event) => {
-    setQuantity(event.target.value);
+    setQuantity(Number(event.target.value));
   };
 
   const addToCart = () => {
@@ -26,37 +24,42 @@ const ProductDetailPage = ({ programDetail }) => {
 
     if (!user) {
       alert('Please log in to add items to your cart.');
-      navigate('/login'); 
+      navigate('/login');
       return;
     }
+
+    if (!user.id) {
+      const userId = prompt('Please enter your user id to store in localStorage:');
+      if (userId) {
+        user.id = userId;
+        localStorage.setItem('loggedInUser', JSON.stringify(user));
+      }
+    }
+
     const cartItem = {
       id: programDetail.id,
       title: programDetail.title,
       image: programDetail.image,
       price: programDetail.price,
-      quantity: quantity
+      quantity: quantity,
+      userId: user.id // Store the user ID with the cart item
     };
 
-    // Get existing cart from local storage
     const existingCart = JSON.parse(localStorage.getItem('cart')) || [];
-    
-    // Check if the item already exists in the cart
-    const existingItemIndex = existingCart.findIndex(item => item.id === cartItem.id);
-    
+
+    const existingItemIndex = existingCart.findIndex(item => item.id === cartItem.id && item.userId === cartItem.userId);
+
     if (existingItemIndex > -1) {
-      // If item exists, update the quantity
       existingCart[existingItemIndex].quantity += quantity;
     } else {
-      // If item does not exist, add it to the cart
       existingCart.push(cartItem);
     }
-    
-    // Save the updated cart to local storage
+
     localStorage.setItem('cart', JSON.stringify(existingCart));
 
-    // Optionally, you can add a notification or alert here to inform the user
     alert('Product added to cart');
   };
+
 
   return (
     <div className="container flex flex-col w-full py-10 mx-auto lg:flex-row">
@@ -78,7 +81,6 @@ const ProductDetailPage = ({ programDetail }) => {
         </div>
       </div>
       <div className="flex flex-col items-start lg:pl-8 lg:w-[50%] w-full">
-
         <h2 className="text-2xl font-bold">{programDetail?.title}</h2>
         <p className="text-gray-600">{programDetail?.description}</p>
 

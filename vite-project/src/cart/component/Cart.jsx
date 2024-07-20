@@ -5,14 +5,10 @@ const Cart = () => {
   const [userId, setUserId] = useState(null);
 
   useEffect(() => {
-    // Fetch user ID from local storage
-    const storedUser = JSON.parse(localStorage.getItem('user'));
+
+    const storedUser = JSON.parse(localStorage.getItem('loggedInUser'));
     setUserId(storedUser?.id);
-
-    // Fetch cart items from local storage
     const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
-
-    // Filter cart items by the current user's ID
     const userCartItems = storedCart.filter(item => item.userId === storedUser?.id);
     setCartItems(userCartItems);
   }, []);

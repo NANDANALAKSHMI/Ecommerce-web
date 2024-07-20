@@ -24,11 +24,10 @@ const Product = () => {
                 {limitedProducts.map((product, index) => (
                     <div key={index} className="max-w-sm overflow-hidden rounded shadow-lg">
                         <div className='p-4'>
-                            <img className="object-contain w-full h-64" src={product.image} alt={product.name} onClick={() => navigate(`/product/${product.id}`)}/>
+                            <img className="object-contain w-full h-64" src={product.image} alt={product.name} onClick={() => navigate(`/product/${product.id}`)} />
                         </div>
                         <div className="px-4 py-3">
                             <h2 className="mb-1 text-lg font-semibold">{product.title}</h2>
-                            <p className="mb-2 text-sm text-gray-600">Brand Name</p>
                             <div className="flex items-center mb-2">
                                 <span className="mr-1 text-yellow-500">{product.rating.rate}</span>
                                 <svg className="w-4 h-4 text-yellow-500 fill-current" viewBox="0 0 20 20">
