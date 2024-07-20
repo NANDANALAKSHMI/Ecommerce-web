@@ -28,7 +28,7 @@ const Login = () => {
 
     return (
         <div className='flex flex-col w-full h-[90vh] lg:flex-row'>
-            <div className='lg:w-[50%]'>
+            <div className='lg:w-[50%] lg:block hidden'>
                 <video 
                     src={videoSrc} 
                     alt="Hero Video" 
@@ -69,7 +69,7 @@ const Login = () => {
                                 className='absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer'
                                 onClick={() => setPasswordVisible(!passwordVisible)}
                             >
-                                <svg className='w-5 h-5 text-gray-400' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
+                                <svg className='w-5 h-5 mt-6 text-gray-400' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
                                     {passwordVisible ? (
                                         <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M13.875 18.825a10.05 10.05 0 01-1.875.175c-4.633 0-8.388-3.053-9.813-7.375 1.426-4.322 5.18-7.375 9.813-7.375 1.98 0 3.857.514 5.463 1.413M15 15l6 6m0-6l-6 6' />
                                     ) : (

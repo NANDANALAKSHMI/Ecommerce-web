@@ -13,6 +13,7 @@ import store from './utils/store'
 import ProductDetailsList from './productDetailpPage/containers/ProductDetailsList'
 import Profile from './auth/Profile'
 import { setUserSuccess } from './slices/authSlices'
+import CartList from './cart/containers/CartList'
 
 function App() {
   const [user, setUser] = useState(null);
@@ -34,6 +35,7 @@ function App() {
             <Route path="/profile" element={<Profile user={user}/>} />
             <Route path="/" element={<HomeList />} />
             <Route path="/products" element={<ProductListAll />} />
+            <Route path="/cart" element={<CartList />} />
             <Route path="/product/:id" element={<ProductDetailsList />} />
 
           </Routes>

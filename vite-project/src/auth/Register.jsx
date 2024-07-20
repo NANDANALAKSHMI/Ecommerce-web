@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import videoSrc from '../assets/login.mp4'; 
+import { v4 as uuidv4 } from 'uuid';
+import videoSrc from '../assets/login.mp4';
 
 const Register = () => {
     const [name, setName] = useState('');
@@ -12,34 +13,34 @@ const Register = () => {
 
     const handleRegister = (e) => {
         e.preventDefault();
-        
+
         if (password !== confirmPassword) {
             alert('Passwords do not match');
             return;
         }
-        
+
         const users = JSON.parse(localStorage.getItem('users')) || [];
         const userExists = users.some(user => user.email === email);
-        
+
         if (userExists) {
             alert('User already exists');
         } else {
-            const newUser = { name, email, password };
+            const newUser = { id: uuidv4(), name, email, password };
             users.push(newUser);
             localStorage.setItem('users', JSON.stringify(users));
-            navigate('/login'); // Redirect to login page after registration
+            navigate('/login');
         }
     };
 
     return (
         <div className='flex flex-col w-full h-[90vh] lg:flex-row'>
-            <div className='lg:w-[50%]'>
-                <video 
-                    src={videoSrc}  
-                    alt="Hero Video" 
-                    className='object-cover w-full h-full' 
-                    autoPlay 
-                    loop 
+            <div className='lg:w-[50%] lg:block hidden'>
+                <video
+                    src={videoSrc}
+                    alt="Hero Video"
+                    className='object-cover w-full h-full'
+                    autoPlay
+                    loop
                     muted
                 />
             </div>
@@ -82,11 +83,11 @@ const Register = () => {
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
                             />
-                            <span 
+                            <span
                                 className='absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer'
                                 onClick={() => setPasswordVisible(!passwordVisible)}
                             >
-                                <svg className='w-5 h-5 text-gray-400' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
+                                <svg className='w-5 h-5 mt-6 text-gray-400' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
                                     {passwordVisible ? (
                                         <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M13.875 18.825a10.05 10.05 0 01-1.875.175c-4.633 0-8.388-3.053-9.813-7.375 1.426-4.322 5.18-7.375 9.813-7.375 1.98 0 3.857.514 5.463 1.413M15 15l6 6m0-6l-6 6' />
                                     ) : (
@@ -115,8 +116,8 @@ const Register = () => {
                         </button>
                     </form>
                     <p className='mt-4 text-sm text-gray-600'>
-                        Already have an account? 
-                        <button 
+                        Already have an account?
+                        <button
                             onClick={() => navigate('/login')}
                             className='ml-1 text-indigo-600 hover:text-indigo-700'
                         >

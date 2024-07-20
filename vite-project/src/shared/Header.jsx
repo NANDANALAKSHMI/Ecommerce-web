@@ -5,13 +5,16 @@ import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
     const navigate = useNavigate();
-    const user = JSON.parse(localStorage.getItem('currentUser')) || {};
+    const user = JSON.parse(localStorage.getItem('loggedInUser')) || {};
 
     const handleProfileClick = () => {
-        navigate('/profile'); // Navigate to the profile page
+        navigate('/profile'); 
     };
     const handleHomeClick = () => {
         navigate('/'); 
+    };
+    const handlecartClick = () => {
+        navigate('/cart'); 
     };
 
     return (
@@ -20,29 +23,10 @@ const Header = () => {
                 <div className="flex items-center w-32 h-20">
                     <img src={img} alt="Logo" onClick={handleHomeClick}/>
                 </div>
-
-                {/* Navigation (optional) */}
-                {/* <nav>
-                <ul className="flex space-x-4">
-                    <li>Men</li>
-                    <li>Women</li>
-                    <li>Kids</li>
-                    <li>Shop</li>
-                    <li>Contact us</li>
-                </ul>
-            </nav> */}
-
-                {/* Search bar (optional) */}
-                {/* <div className="items-center hidden px-3 py-1 border rounded-full md:flex ">
-                    <input type="text" placeholder="Search here" className="outline-none" />
-                    <FiSearch className="ml-2 text-gray-400" />
-                </div> */}
-
-                <div className="flex items-center space-x-4">
-                    <FiHeart className="w-6 h-6" />
-                    <FiShoppingCart className="w-6 h-6" />
+                <div className="flex items-center space-x-4 " >
+                    <FiShoppingCart className="w-7 h-7" onClick={handlecartClick} />
                     <div className="flex items-center cursor-pointer" onClick={handleProfileClick}>
-                        <FiUser className="w-6 h-6" />
+                        <FiUser className="h-7 w-7" />
                         {user.name && (
                             <span className="ml-2 text-sm font-medium">{user.name}</span>
                         )}
