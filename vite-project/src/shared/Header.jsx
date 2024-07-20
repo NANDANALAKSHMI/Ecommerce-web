@@ -8,20 +8,27 @@ const Header = () => {
     const user = JSON.parse(localStorage.getItem('loggedInUser')) || {};
 
     const handleProfileClick = () => {
-        navigate('/profile'); 
+        navigate('/profile');
     };
     const handleHomeClick = () => {
-        navigate('/'); 
+        navigate('/');
     };
     const handlecartClick = () => {
-        navigate('/cart'); 
+        const user = JSON.parse(localStorage.getItem('loggedInUser'));
+
+        if (!user) {
+            alert('Please log in to add items to your cart.');
+            navigate('/login');
+            return;
+        }
+        navigate('/cart');
     };
 
     return (
         <div className='container mx-auto'>
             <header className="flex items-center justify-between px-4 py-2 bg-white shadow-sm">
                 <div className="flex items-center w-32 h-20">
-                    <img src={img} alt="Logo" onClick={handleHomeClick}/>
+                    <img src={img} alt="Logo" onClick={handleHomeClick} />
                 </div>
                 <div className="flex items-center space-x-4 " >
                     <FiShoppingCart className="w-7 h-7" onClick={handlecartClick} />

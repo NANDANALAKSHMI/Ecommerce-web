@@ -2,21 +2,24 @@ import React, { useState, useEffect } from 'react';
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
+    // Fetch user ID from local storage
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+    setUserId(storedUser?.id);
+
     // Fetch cart items from local storage
     const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
-    setCartItems(storedCart);
+
+    // Filter cart items by the current user's ID
+    const userCartItems = storedCart.filter(item => item.userId === storedUser?.id);
+    setCartItems(userCartItems);
   }, []);
 
   const removeItem = (itemId) => {
-    // Filter out the item to remove
     const updatedCart = cartItems.filter(item => item.id !== itemId);
-    
-    // Update local storage
     localStorage.setItem('cart', JSON.stringify(updatedCart));
-    
-    // Update component state
     setCartItems(updatedCart);
   };
 
@@ -25,31 +28,33 @@ const Cart = () => {
       {cartItems.length === 0 ? (
         <p className="text-center text-gray-600">Your cart is empty</p>
       ) : (
-        cartItems.map((item) => (
-          <div key={item.id} className="flex p-4 mb-4 border border-gray-200 rounded-lg shadow-sm">
-            <img 
-              src={item.image} 
-              alt={item.title} 
-              className="object-cover mr-4 rounded-md w-[15%]"
-            />
-            <div className="flex-grow">
-              <h2 className="text-xl font-semibold">{item.title}</h2>
-              <p className="mt-2 text-lg font-bold">Rs. {item.price}</p>
-              <p className="mt-2 text-sm text-gray-500">Quantity: {item.quantity}</p>
-              <div className="flex items-center mt-4">
-                <button className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600">
-                 Buy
-                </button>
-                <button 
-                  className="ml-4 text-red-500 hover:underline"
-                  onClick={() => removeItem(item.id)}
-                >
-                  Remove
-                </button>
+        <div className="space-y-4">
+          {cartItems.map((item) => (
+            <div key={item.id} className="flex p-4 border border-gray-200 rounded-lg shadow-sm">
+              <img
+                src={item.image}
+                alt={item.title}
+                className="object-contain w-24 h-24 mr-4 rounded-md"
+              />
+              <div className="flex-grow">
+                <h2 className="text-lg font-semibold">{item.title}</h2>
+                <p className="mt-1 text-lg font-bold">Rs. {item.price}</p>
+                <p className="mt-1 text-sm text-gray-500">Quantity: {item.quantity}</p>
+                <div className="flex items-center mt-2">
+                  <button className="px-4 py-1 text-sm text-white bg-blue-500 rounded hover:bg-blue-600">
+                    Buy
+                  </button>
+                  <button
+                    className="ml-4 text-sm text-red-500 hover:underline"
+                    onClick={() => removeItem(item.id)}
+                  >
+                    Remove
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        ))
+          ))}
+        </div>
       )}
     </div>
   );

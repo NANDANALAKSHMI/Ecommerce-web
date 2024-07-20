@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 import img from "../../assets/product.png";
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const ProductDetailPage = ({ programDetail }) => {
   console.log(programDetail, "happy");
   const [selectedImage, setSelectedImage] = useState(img);
-
+  const navigate = useNavigate();
   const images = [
     programDetail.image,
     programDetail.image,
@@ -21,7 +22,13 @@ const ProductDetailPage = ({ programDetail }) => {
   };
 
   const addToCart = () => {
-   
+    const user = JSON.parse(localStorage.getItem('loggedInUser'));
+
+    if (!user) {
+      alert('Please log in to add items to your cart.');
+      navigate('/login'); 
+      return;
+    }
     const cartItem = {
       id: programDetail.id,
       title: programDetail.title,
